@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-Wire Network</title>
+<meta name="google-site-verification" content="vPrPs6OsWEmsXfUWhN3NlBiR2PA809FQtUKL9N-EtT8" />
+<meta name="description" content="K-Wire Network — the directory for a small family of independent, unofficial English-language K-pop fan wires: Bangtan Wire, Blackpink Wire, and Stray Kids Wire.">
+<meta property="og:title" content="K-Wire Network">
+<meta property="og:description" content="One directory for a family of independent K-pop fan wires — translated news, official video curation, and release countdowns, one artist per desk.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A1%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F4F2EF; --paper-raised:#FFFFFF; --ink:#181818; --ink-dim:#57534E; --ink-faint:#8A857D;
+    --line:#E2DDD5; --accent:#181818; --accent-tint:#E9E6E1; --live:#2F7A4C;
+    --violet:#6E3FA3; --violet-tint:#E4D9F2;
+    --pink:#D6006F; --pink-tint:#FBD9EA;
+    --red:#E4002B; --red-tint:#FBDADE;
+    --shadow: 0 1px 2px rgba(24,24,24,0.06), 0 10px 28px rgba(24,24,24,0.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#141312; --paper-raised:#1F1D1B; --ink:#F2EFEA; --ink-dim:#C4BEB4; --ink-faint:#8A857D;
+      --line:#332F2A; --accent:#F2EFEA; --accent-tint:#2A2723;
+      --violet:#B98BF0; --violet-tint:#2C2237;
+      --pink:#FF57AD; --pink-tint:#3B1C2C;
+      --red:#FF6B7A; --red-tint:#3A1C1F;
+      --live:#66CD8C;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 14px 34px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#141312; --paper-raised:#1F1D1B; --ink:#F2EFEA; --ink-dim:#C4BEB4; --ink-faint:#8A857D;
+    --line:#332F2A; --accent:#F2EFEA; --accent-tint:#2A2723;
+    --violet:#B98BF0; --violet-tint:#2C2237;
+    --pink:#FF57AD; --pink-tint:#3B1C2C;
+    --red:#FF6B7A; --red-tint:#3A1C1F;
+    --live:#66CD8C;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 14px 34px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  a{color:inherit;}
+  h1,h2,h3{font-family:'Fraunces', Georgia, 'Times New Roman', serif; font-weight:600; text-wrap:balance; margin:0;}
+  p{margin:0;}
+  .mono{font-family:'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric:tabular-nums;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 clamp(1.25rem, 4vw, 2.5rem);}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
+
+  .masthead{position:sticky; top:0; z-index:20; background:var(--paper); border-bottom:1px solid var(--line);}
+  .masthead__top{max-width:1080px; margin:0 auto; padding:0.9rem clamp(1.25rem, 4vw, 2.5rem) 0.7rem; display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap;}
+  .wordmark{font-family:'Fraunces', serif; font-weight:700; font-size:1.35rem; text-decoration:none; letter-spacing:-0.01em;}
+  .masthead__kicker{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-faint);}
+
+  .hero{padding:clamp(2.75rem,7vw,5.5rem) 0 clamp(2.5rem,6vw,4rem);}
+  .dateline{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; letter-spacing:0.1em; color:var(--ink); font-weight:600;}
+  .hero h1{font-size:clamp(2.4rem, 6vw, 4.2rem); line-height:1.02; margin-top:0.6rem; letter-spacing:-0.02em;}
+  .hero__sub{max-width:60ch; margin-top:1.25rem; font-size:1.08rem; color:var(--ink-dim);}
+  .hero__meta{margin-top:1.4rem; font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--ink-faint); display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;}
+  .tag{display:inline-block; font-family:'IBM Plex Mono', monospace; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.2rem 0.5rem; border-radius:3px; font-weight:600;}
+  .hero__actions{margin-top:2rem; display:flex; gap:0.9rem; flex-wrap:wrap;}
+  .btn{display:inline-flex; align-items:center; gap:0.4rem; padding:0.75rem 1.3rem; border-radius:3px; text-decoration:none; font-weight:600; font-size:0.92rem; border:1px solid transparent; transition:transform .15s ease, background .15s ease;}
+  .btn--primary{background:var(--accent); color:var(--paper);}
+  .btn--primary:hover{transform:translateY(-1px);}
+  .btn--ghost{border-color:var(--line); color:var(--ink);}
+  .btn--ghost:hover{border-color:var(--accent);}
+
+  .section-label{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:0.9rem;}
+  .desk-section{padding:clamp(2.75rem,6vw,4.5rem) 0; border-top:1px solid var(--line);}
+  .desk-section--alt{background:var(--paper-raised);}
+  .desk-head{display:flex; justify-content:space-between; align-items:flex-end; gap:1.5rem; flex-wrap:wrap; margin-bottom:2rem;}
+  .desk-head h2{font-size:clamp(1.6rem,3.4vw,2.1rem);}
+  .desk-note{max-width:36ch; font-size:0.88rem; color:var(--ink-dim);}
+
+  /* ---------- Directory ---------- */
+  .directory{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1.5rem;}
+  .site-card{background:var(--paper-raised); border:1px solid var(--line); border-radius:8px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column;}
+  .site-card__bar{height:6px;}
+  .site-card__body{padding:1.6rem; display:flex; flex-direction:column; gap:0.9rem; flex:1;}
+  .site-card__eyebrow{font-family:'IBM Plex Mono', monospace; font-size:0.66rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint);}
+  .site-card h3{font-size:1.4rem;}
+  .site-card p{font-size:0.92rem; color:var(--ink-dim); flex:1;}
+  .site-card__tags{display:flex; gap:0.5rem; flex-wrap:wrap;}
+  .site-card__link{margin-top:0.3rem; font-size:0.86rem; font-weight:600; text-decoration:none;}
+  .site-card__link:hover{text-decoration:underline;}
+  .site-card__sub{font-size:0.78rem; color:var(--ink-faint); border-top:1px dashed var(--line); padding-top:0.8rem; margin-top:0.2rem;}
+  .site-card__sub a{font-weight:600; text-decoration:none;}
+  .site-card__sub a:hover{text-decoration:underline;}
+
+  .about-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.5rem;}
+  .about-card{padding:1.4rem 0;}
+  .about-card h3{font-size:1.05rem; margin-bottom:0.5rem;}
+  .about-card p{font-size:0.88rem; color:var(--ink-dim);}
+
+  .colophon{border-top:1px solid var(--line); background:var(--paper-raised); padding:clamp(2.5rem,5vw,3.5rem) 0 2.5rem;}
+  .colophon__grid{display:grid; grid-template-columns:1.1fr 1.4fr; gap:2.5rem;}
+  .colophon .wordmark{font-size:1.15rem;}
+  .colophon p{font-size:0.82rem; color:var(--ink-dim); margin-top:0.9rem; max-width:46ch;}
+  .colophon__fine{font-size:0.72rem; color:var(--ink-faint); margin-top:1.5rem; font-family:'IBM Plex Mono', monospace; line-height:1.6;}
+  @media (max-width:720px){ .colophon__grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="masthead" id="top">
+    <div class="masthead__top">
+      <a class="wordmark" href="#top">K-Wire Network</a>
+      <span class="masthead__kicker">Independent K-pop Fan Wires · Directory</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <p class="dateline">NETWORK — AUGUST 2026</p>
+      <h1>Three wires,<br>one directory.</h1>
+      <p class="hero__sub">K-Wire Network is the front door to a small, growing family of independent fan sites — one dedicated "wire" per artist, each carrying translated news, text-only reviews, official-video-only screening rooms, and a release countdown converted to your timezone. Pick a desk below.</p>
+      <p class="hero__meta">DIRECTORY · <span class="tag" style="background:var(--accent-tint); color:var(--ink);">3 desks live</span></p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#directory">Browse the desks ↓</a>
+        <a class="btn btn--ghost" href="#about">What is this?</a>
+      </div>
+    </section>
+
+    <section class="desk-section" id="directory">
+      <div class="wrap">
+        <div class="desk-head">
+          <div>
+            <p class="section-label">The Desks</p>
+            <h2>One wire per artist.</h2>
+          </div>
+          <p class="desk-note">Each site is independently built and updated, following the same format — translated news, reviews, official video only, and a live countdown.</p>
+        </div>
+        <div class="directory">
+          <article class="site-card">
+            <div class="site-card__bar" style="background:var(--violet);"></div>
+            <div class="site-card__body">
+              <p class="site-card__eyebrow">Est. 2026</p>
+              <h3>Bangtan Wire</h3>
+              <p>An unofficial English-language wire for global ARMY — translated news, album reviews, and a tour schedule for the group's current era.</p>
+              <div class="site-card__tags">
+                <span class="tag" style="background:var(--violet-tint); color:var(--violet);">BTS / ARMY</span>
+              </div>
+              <a class="site-card__link" style="color:var(--violet);" href="https://fhzl0117-hue.github.io/bangtan-wire/" target="_blank" rel="noopener">Enter Bangtan Wire ↗</a>
+            </div>
+          </article>
+          <article class="site-card">
+            <div class="site-card__bar" style="background:var(--pink);"></div>
+            <div class="site-card__body">
+              <p class="site-card__eyebrow">Est. 2026</p>
+              <h3>Blackpink Wire</h3>
+              <p>An unofficial English-language wire for global BLINK — group news and reviews, plus a dedicated solo desk for each of the four members.</p>
+              <div class="site-card__tags">
+                <span class="tag" style="background:var(--pink-tint); color:var(--pink);">BLACKPINK / BLINK</span>
+              </div>
+              <a class="site-card__link" style="color:var(--pink);" href="https://fhzl0117-hue.github.io/blackpink-wire/" target="_blank" rel="noopener">Enter Blackpink Wire ↗</a>
+              <p class="site-card__sub">Solo desks: <a style="color:var(--pink);" href="https://fhzl0117-hue.github.io/blackpink-wire/jennie.html" target="_blank" rel="noopener">Jennie</a> · <a style="color:var(--pink);" href="https://fhzl0117-hue.github.io/blackpink-wire/jisoo.html" target="_blank" rel="noopener">Jisoo</a> · <a style="color:var(--pink);" href="https://fhzl0117-hue.github.io/blackpink-wire/rose.html" target="_blank" rel="noopener">Rosé</a> · <a style="color:var(--pink);" href="https://fhzl0117-hue.github.io/blackpink-wire/lisa.html" target="_blank" rel="noopener">Lisa</a></p>
+            </div>
+          </article>
+          <article class="site-card">
+            <div class="site-card__bar" style="background:var(--red);"></div>
+            <div class="site-card__body">
+              <p class="site-card__eyebrow">Est. 2026</p>
+              <h3>Stray Kids Wire</h3>
+              <p>An unofficial English-language wire for global STAY — news, reviews, and a world tour calendar for the RUN IT / THIS &amp; THAT era.</p>
+              <div class="site-card__tags">
+                <span class="tag" style="background:var(--red-tint); color:var(--red);">Stray Kids / STAY</span>
+              </div>
+              <a class="site-card__link" style="color:var(--red);" href="https://fhzl0117-hue.github.io/stray-kids-wire/" target="_blank" rel="noopener">Enter Stray Kids Wire ↗</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="desk-section desk-section--alt" id="about">
+      <div class="wrap">
+        <div class="desk-head">
+          <div>
+            <p class="section-label">About</p>
+            <h2>What K-Wire Network is — and isn't.</h2>
+          </div>
+        </div>
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>One format, several artists</h3>
+            <p>Every site in the network follows the same rules: news is translated and always linked to its original source, reviews are text-only, video is official-channel-only, and release dates convert automatically to the visitor's timezone.</p>
+          </div>
+          <div class="about-card">
+            <h3>Independently run</h3>
+            <p>Each wire is an independent fan project. None of them are affiliated with, endorsed by, or sponsored by any label, agency, or artist named on this page.</p>
+          </div>
+          <div class="about-card">
+            <h3>Growing slowly</h3>
+            <p>New desks are added deliberately, one artist at a time, once there's enough real, sourced content to sustain one — not on a fixed schedule.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <div class="wrap colophon__grid">
+      <div>
+        <a class="wordmark" href="#top">K-Wire Network</a>
+        <p>A directory for a family of independent K-pop fan wires — built to translate, schedule, and curate, never to reproduce.</p>
+      </div>
+      <div>
+        <p>K-Wire Network and every site it links to are independent fan projects. None are affiliated with, endorsed by, or sponsored by HYBE, BIGHIT MUSIC, YG Entertainment, THEBLACKLABEL, Odd Atelier, Warner Records, LLOUD, JYP Entertainment, or any artist named on this page. All trademarks and copyrighted material belong to their respective owners.</p>
+        <p class="colophon__fine">DIRECTORY BUILD — this page links out to independently maintained sites; each site's own about section carries its specific sourcing and compliance notes. Verify anything time-sensitive (dates, prices, tickets) directly on the linked site or its official source.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
