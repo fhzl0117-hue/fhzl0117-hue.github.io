@@ -116,7 +116,7 @@
   <main>
     <section class="hero wrap">
       <p class="dateline">NETWORK — AUGUST 2026</p>
-      <h1>Three wires,<br>one directory.</h1>
+      <h1 id="hero-headline">Three wires,<br>one directory.</h1>
       <p class="hero__sub">K-Wire Network is the front door to a small, growing family of independent fan sites — one dedicated "wire" per artist, each carrying translated news, text-only reviews, official-video-only screening rooms, and a release countdown converted to your timezone. Pick a desk below.</p>
       <p class="hero__meta">DIRECTORY · <span class="tag" id="desks-live-tag" style="background:var(--accent-tint); color:var(--ink);">3 desks live</span></p>
       <div class="hero__actions">
@@ -268,10 +268,19 @@
     else if(html){ card.querySelector('.site-card__body').insertAdjacentHTML('beforeend', html); }
   }
 
+  var COUNT_WORDS = ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten',
+    'Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen','Twenty'];
+
   function updateDeskCount(){
     var count = document.querySelectorAll('#directory-grid .site-card').length;
     var tag = document.getElementById('desks-live-tag');
     if(tag) tag.textContent = count + ' desk' + (count === 1 ? '' : 's') + ' live';
+
+    var headline = document.getElementById('hero-headline');
+    if(headline){
+      var word = COUNT_WORDS[count] || String(count);
+      headline.innerHTML = word + ' wire' + (count === 1 ? '' : 's') + ',<br>one directory.';
+    }
   }
 
   fetch('https://api.github.com/users/' + OWNER + '/repos?per_page=100')
