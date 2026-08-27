@@ -118,7 +118,7 @@
       <p class="dateline">NETWORK — AUGUST 2026</p>
       <h1>Three wires,<br>one directory.</h1>
       <p class="hero__sub">K-Wire Network is the front door to a small, growing family of independent fan sites — one dedicated "wire" per artist, each carrying translated news, text-only reviews, official-video-only screening rooms, and a release countdown converted to your timezone. Pick a desk below.</p>
-      <p class="hero__meta">DIRECTORY · <span class="tag" style="background:var(--accent-tint); color:var(--ink);">3 desks live</span></p>
+      <p class="hero__meta">DIRECTORY · <span class="tag" id="desks-live-tag" style="background:var(--accent-tint); color:var(--ink);">3 desks live</span></p>
       <div class="hero__actions">
         <a class="btn btn--primary" href="#directory">Browse the desks ↓</a>
         <a class="btn btn--ghost" href="#about">What is this?</a>
@@ -134,8 +134,8 @@
           </div>
           <p class="desk-note">Each site is independently built and updated, following the same format — translated news, reviews, official video only, and a live countdown.</p>
         </div>
-        <div class="directory">
-          <article class="site-card">
+        <div class="directory" id="directory-grid">
+          <article class="site-card" data-repo="bangtan-wire">
             <div class="site-card__bar" style="background:var(--violet);"></div>
             <div class="site-card__body">
               <p class="site-card__eyebrow">Est. 2026</p>
@@ -147,7 +147,7 @@
               <a class="site-card__link" style="color:var(--violet);" href="https://fhzl0117-hue.github.io/bangtan-wire/" target="_blank" rel="noopener">Enter Bangtan Wire ↗</a>
             </div>
           </article>
-          <article class="site-card">
+          <article class="site-card" data-repo="blackpink-wire">
             <div class="site-card__bar" style="background:var(--pink);"></div>
             <div class="site-card__body">
               <p class="site-card__eyebrow">Est. 2026</p>
@@ -160,7 +160,7 @@
               <p class="site-card__sub">Solo desks: <a style="color:var(--pink);" href="https://fhzl0117-hue.github.io/blackpink-wire/jennie.html" target="_blank" rel="noopener">Jennie</a> · <a style="color:var(--pink);" href="https://fhzl0117-hue.github.io/blackpink-wire/jisoo.html" target="_blank" rel="noopener">Jisoo</a> · <a style="color:var(--pink);" href="https://fhzl0117-hue.github.io/blackpink-wire/rose.html" target="_blank" rel="noopener">Rosé</a> · <a style="color:var(--pink);" href="https://fhzl0117-hue.github.io/blackpink-wire/lisa.html" target="_blank" rel="noopener">Lisa</a></p>
             </div>
           </article>
-          <article class="site-card">
+          <article class="site-card" data-repo="stray-kids-wire">
             <div class="site-card__bar" style="background:var(--red);"></div>
             <div class="site-card__body">
               <p class="site-card__eyebrow">Est. 2026</p>
@@ -215,6 +215,93 @@
     </div>
   </footer>
 </div>
+
+<script>
+(function(){
+  // Auto-discovery: any GitHub repo under this account named "<something>-wire"
+  // that carries a manifest.json at its root is picked up here automatically —
+  // as a new card if it's not already listed, or merged into its existing card
+  // (e.g. new member solo desks) if it is. No manual edits to this page needed.
+  var OWNER = 'fhzl0117-hue';
+  var HUB_REPO = OWNER + '.github.io';
+
+  function escapeHtml(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function buildMembersHtml(members, accent){
+    if(!members || !members.length) return '';
+    var color = accent || '#181818';
+    var links = members.map(function(m){
+      return '<a style="color:' + color + ';" href="' + m.url + '" target="_blank" rel="noopener">' + escapeHtml(m.name) + '</a>';
+    }).join(' · ');
+    return '<p class="site-card__sub">Solo desks: ' + links + '</p>';
+  }
+
+  function buildCardHtml(repoName, m){
+    var accent = m.accent || '#181818';
+    var tint = m.accentTint || '#E9E6E1';
+    return (
+      '<article class="site-card" data-repo="' + repoName + '">' +
+        '<div class="site-card__bar" style="background:' + accent + ';"></div>' +
+        '<div class="site-card__body">' +
+          '<p class="site-card__eyebrow">' + escapeHtml(m.eyebrow || 'Est. 2026') + '</p>' +
+          '<h3>' + escapeHtml(m.name) + '</h3>' +
+          '<p>' + escapeHtml(m.description || '') + '</p>' +
+          '<div class="site-card__tags"><span class="tag" style="background:' + tint + '; color:' + accent + ';">' + escapeHtml(m.tag || '') + '</span></div>' +
+          '<a class="site-card__link" style="color:' + accent + ';" href="' + m.url + '" target="_blank" rel="noopener">Enter ' + escapeHtml(m.name) + ' ↗</a>' +
+          buildMembersHtml(m.members, accent) +
+        '</div>' +
+      '</article>'
+    );
+  }
+
+  function updateExistingCard(card, m){
+    if(!m || !m.members || !m.members.length) return;
+    var linkEl = card.querySelector('.site-card__link');
+    var accent = m.accent || (linkEl && linkEl.style.color) || '#181818';
+    var html = buildMembersHtml(m.members, accent);
+    var existingSub = card.querySelector('.site-card__sub');
+    if(existingSub){ existingSub.outerHTML = html; }
+    else if(html){ card.querySelector('.site-card__body').insertAdjacentHTML('beforeend', html); }
+  }
+
+  function updateDeskCount(){
+    var count = document.querySelectorAll('#directory-grid .site-card').length;
+    var tag = document.getElementById('desks-live-tag');
+    if(tag) tag.textContent = count + ' desk' + (count === 1 ? '' : 's') + ' live';
+  }
+
+  fetch('https://api.github.com/users/' + OWNER + '/repos?per_page=100')
+    .then(function(res){ return res.ok ? res.json() : []; })
+    .then(function(repos){
+      var grid = document.getElementById('directory-grid');
+      if(!grid || !Array.isArray(repos)) return;
+      var wireRepos = repos.filter(function(r){
+        return r && r.name && !r.fork && r.name !== HUB_REPO && r.name.slice(-5) === '-wire';
+      });
+      var tasks = wireRepos.map(function(r){
+        var manifestUrl = 'https://raw.githubusercontent.com/' + OWNER + '/' + r.name + '/main/manifest.json?_=' + Date.now();
+        return fetch(manifestUrl)
+          .then(function(res){ return res.ok ? res.json() : null; })
+          .catch(function(){ return null; })
+          .then(function(manifest){ return { repo: r.name, manifest: manifest }; });
+      });
+      return Promise.all(tasks).then(function(results){
+        results.forEach(function(item){
+          if(!item.manifest) return;
+          var existing = grid.querySelector('[data-repo="' + item.repo + '"]');
+          if(existing){ updateExistingCard(existing, item.manifest); }
+          else { grid.insertAdjacentHTML('beforeend', buildCardHtml(item.repo, item.manifest)); }
+        });
+        updateDeskCount();
+      });
+    })
+    .catch(function(){ /* network/rate-limit issue — keep the static fallback as-is */ });
+})();
+</script>
 
 </body>
 </html>
